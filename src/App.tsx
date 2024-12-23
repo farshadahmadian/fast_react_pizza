@@ -5,6 +5,7 @@ import Cart from "./features/cart/Cart";
 import CreateOrder from "./features/order/CreateOrder";
 import Order from "./features/order/Order";
 import AppLayout from "./ui/AppLayout";
+import { getMenu } from "./services/apiRestaurant";
 
 // for data loading, data actions and data fetching in React Router Dom, createBrowserRouter() is required
 
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
       {
         path: "/menu",
         element: <Menu />,
+        loader: getMenu,
       },
       {
         path: "/cart",

@@ -1,4 +1,4 @@
-export type PizzaType = {
+export type MenuItemType = {
   id: string;
   name: string;
   unitPrice: number;

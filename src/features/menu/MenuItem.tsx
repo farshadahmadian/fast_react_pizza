@@ -1,8 +1,8 @@
 import { formatCurrency } from "../../utils/helpers";
-import { PizzaType } from "./types";
+import { MenuItemType } from "./types";
 
 type MenuItemPropsType = {
-  pizza: PizzaType;
+  pizza: MenuItemType;
 };
 
 function MenuItem({ pizza }: MenuItemPropsType) {
