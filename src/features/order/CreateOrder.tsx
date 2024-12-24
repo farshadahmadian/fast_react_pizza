@@ -1,10 +1,5 @@
+import { Form, useActionData, useNavigation } from "react-router-dom";
 import { CartItemType } from "../cart/types";
-
-// https://uibakery.io/regex-library/phone-number
-const isValidPhone = (str: string) =>
-  /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str
-  );
 
 const fakeCart: CartItemType[] = [
   {
@@ -31,14 +26,30 @@ const fakeCart: CartItemType[] = [
 ];
 
 function CreateOrder() {
+  const actionData = useActionData();
+
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading"; // when redirecting to /order/newOrder.id (sending a GET request to API to get the newly created order)
+  const isSubmitting = navigation.state === "submitting"; // when sending a POST request to the API to create a new order
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+
+  /* 
+    using react-router-dom "action", it is possible to get the data
+    submited in form without using any states and submit handler (action.tsx)
+  */
 
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      {/* in order to use react router action to send POST requests to the API,
+      the component <Form /> from react-router-dom library must be used instead of the JSX element <form>
+      
+      the route "action" function is called as soon as a POST, DELETE, or PATCH request is sent to the route,
+      e.g. /order/new (so, method must be "POST", "DELETE" or "PATCH" to trigger the "action" function)
+      */}
+      <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -49,6 +60,7 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {actionData?.phone && <p>{actionData.phone}</p>}
         </div>
 
         <div>
@@ -70,9 +82,25 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          {/* after the form is submitted, besides the form data (name, address,
+          phone, priority), the "cart" value is needed to send the POST request
+          to the API to create a new order. To get all the data easily without using 
+          states and submit handler, react-router-dom "action" can be used to get the 
+          submitted data ("cart" value can be submitted as the value of a hidden input)
+          and then, when all the required data for sending the POST request to the API 
+          is ready, the POST request can be sent using fetch function (createOrder(order))
+          and the response received from the server, which is the new order, can be used 
+          to render <Order /> when routing to /order/:orderId if orderId === newOrder.id */}
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button disabled={isLoading || isSubmitting}>
+            {isSubmitting
+              ? "Placing the order"
+              : isLoading
+              ? "Redirecting to created order"
+              : "Order now"}
+          </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }

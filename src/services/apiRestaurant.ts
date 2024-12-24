@@ -1,5 +1,5 @@
 import { MenuItemType } from "../features/menu/types";
-import { OrderType } from "../features/order/types";
+import { FullOrderType, PostOrderType } from "../features/order/types";
 
 const API_URL = "https://react-fast-pizza-api.onrender.com/api";
 
@@ -12,7 +12,7 @@ export async function getMenu(): Promise<MenuItemType[]> {
   return data;
 }
 
-export async function getOrder(id: string): Promise<OrderType> {
+export async function getOrder(id: string): Promise<FullOrderType> {
   const res = await fetch(`${API_URL}/order/${id}`);
   if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
@@ -20,7 +20,7 @@ export async function getOrder(id: string): Promise<OrderType> {
   return data;
 }
 
-export async function createOrder(newOrder: OrderType) {
+export async function createOrder(newOrder: PostOrderType) {
   try {
     const res = await fetch(`${API_URL}/order`, {
       method: "POST",

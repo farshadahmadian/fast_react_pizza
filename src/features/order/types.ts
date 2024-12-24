@@ -2,16 +2,28 @@ import { CartItemType } from "../cart/types";
 
 export type OrderStatusType = "delivery";
 
-export type OrderType = {
-  id: string;
+export type OrderFormType = {
   customer: string;
   phone: string;
   address: string;
-  priority: boolean;
-  estimatedDelivery: string;
+  priority: string;
   cart: CartItemType[];
-  position: string;
+};
+
+export type PostOrderType = Omit<OrderFormType, "priority"> & {
+  priority: boolean;
+};
+
+export type FullOrderType = PostOrderType & {
+  id: string;
+  estimatedDelivery: string;
   orderPrice: number;
   priorityPrice: number;
   status: OrderStatusType;
+  createdAt: string;
 };
+
+export type GetOrderType = Omit<
+  FullOrderType,
+  "phone" | "customer" | "address"
+>;
