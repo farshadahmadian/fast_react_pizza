@@ -4,8 +4,14 @@ import App from "./App.tsx";
 
 import "./index.css";
 
+import "./features/user/userSlice.ts";
+import { Provider } from "react-redux";
+import store from "./store.ts";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <App />
-  </StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>,
 );
