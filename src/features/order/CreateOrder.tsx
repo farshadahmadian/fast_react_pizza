@@ -1,5 +1,6 @@
 import { Form, useActionData, useNavigation } from "react-router-dom";
 import { CartItemType } from "../cart/types";
+import Button from "../../ui/Button";
 
 const fakeCart: CartItemType[] = [
   {
@@ -52,13 +53,13 @@ function CreateOrder() {
       <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input className="input" type="text" name="customer" required />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input className="input" type="tel" name="phone" required />
           </div>
           {actionData?.phone && <p>{actionData.phone}</p>}
         </div>
@@ -66,12 +67,13 @@ function CreateOrder() {
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input className="input" type="text" name="address" required />
           </div>
         </div>
 
         <div>
           <input
+            className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
             type="checkbox"
             name="priority"
             id="priority"
@@ -92,13 +94,13 @@ function CreateOrder() {
           and the response received from the server, which is the new order, can be used 
           to render <Order /> when routing to /order/:orderId if orderId === newOrder.id */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button disabled={isLoading || isSubmitting}>
+          <Button type="button" disabled={isLoading || isSubmitting}>
             {isSubmitting
-              ? "Placing the order"
+              ? "Placing the order ..."
               : isLoading
-              ? "Redirecting to created order"
-              : "Order now"}
-          </button>
+                ? "Redirecting to created order ..."
+                : "Order now"}
+          </Button>
         </div>
       </Form>
     </div>
