@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 type SizeType = "small" | "primary" | "secondary";
 
@@ -8,6 +8,7 @@ type ButtonPropsType = {
   type: "button" | "reset" | "submit";
   sizeType: SizeType;
   className?: string;
+  onClick?: (event: MouseEvent) => void;
 };
 
 type StylesType = Record<SizeType, string>;
@@ -18,6 +19,7 @@ function Button({
   type,
   sizeType,
   className = "",
+  onClick = () => {},
 }: ButtonPropsType) {
   const base =
     "inline-block text-sm rounded-full bg-yellow-400 font-semibold uppercase tracking-wide text-stone-800 transition-colors duration-300 hover:bg-yellow-300 focus:bg-yellow-300 focus:outline-none focus:ring focus:ring-yellow-300 focus:ring-offset-2 active:ring-0 active:ring-offset-0 disabled:cursor-not-allowed disabled:bg-yellow-400";
@@ -31,6 +33,7 @@ function Button({
 
   return (
     <button
+      onClick={onClick}
       disabled={disabled}
       type={type}
       className={`${styles[sizeType]} ${className}`}

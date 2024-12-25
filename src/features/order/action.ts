@@ -10,7 +10,7 @@ type FormErrorsType = {
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str: string) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
-    str
+    str,
   );
 
 /*
@@ -48,7 +48,7 @@ export async function action(obj: ReactRouterDomRequestType) {
   if (Object.keys(errors).length > 0) return errors;
 
   const newOrder: FullOrderType = await createOrder(order);
-
+  console.log(order);
   /* 
   redirect() can be "returned" from a route "loader" or "action" function to
   send a Response with a status code (default is 302 Found) to the browser
@@ -56,6 +56,7 @@ export async function action(obj: ReactRouterDomRequestType) {
   */
   const response = redirect(`/order/${newOrder.id}`);
   return response;
+  // return newOrder.id;
 }
 
 /* 

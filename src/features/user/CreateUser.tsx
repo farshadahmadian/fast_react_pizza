@@ -1,11 +1,24 @@
 import { FormEvent, useState } from "react";
 import Button from "../../ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { updateName } from "./userSlice";
+import { useNavigate } from "react-router-dom";
+import { updateUserLocalStorage } from "./utils";
+import { RootStateType } from "../../store";
 
 function CreateUser() {
-  const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((rootState: RootStateType) => rootState.user);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!fullName.trim()) return;
+    dispatch(updateName(fullName));
+    updateUserLocalStorage({ ...user, username: fullName });
+    setFullName("");
+    navigate("/menu");
   }
 
   return (
@@ -17,12 +30,12 @@ function CreateUser() {
       <input
         type="text"
         placeholder="Your full name"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        value={fullName}
+        onChange={(e) => setFullName(e.target.value)}
         className="input mb-8 w-72"
       />
 
-      {username !== "" && (
+      {fullName !== "" && (
         <div>
           <Button sizeType="primary" type="submit" disabled={false}>
             Start ordering

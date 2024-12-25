@@ -23,8 +23,16 @@ async function fetchAddress() {
   return { position, address };
 }
 
-const initialState = {
-  username: "",
+export type UserStateType = {
+  username: string;
+};
+
+export const LOCAL_STORAGE_USER = "userData";
+const userString = localStorage.getItem(LOCAL_STORAGE_USER);
+const userData: UserStateType = JSON.parse(userString || '{"username":""}');
+
+const initialState: UserStateType = {
+  username: userData.username,
   // phoneNumber: "",
   // address: "",
 };
