@@ -24,7 +24,7 @@ function CreateUser() {
 
       {username !== "" && (
         <div>
-          <Button type="submit" disabled={false}>
+          <Button sizeType="primary" type="submit" disabled={false}>
             Start ordering
           </Button>
         </div>

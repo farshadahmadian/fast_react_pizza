@@ -7,9 +7,10 @@ function AppLayout() {
   // navigation is an object for the current route and "navigation.state" shows the state of the navigation for the current route. So, it is for all the routes and since all the routes are nested in AppLayout, navigation.state can be used in AppLayout to always get the navigation state of the current route regardless of which route it is
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
+  const isSubmitting = navigation.state === "submitting";
   return (
-    <div className="grid h-screen grid-rows-[auto_1fr_auto]">
-      {isLoading && <Loader />}
+    <div className="h-dynamicScreen relative grid grid-rows-[auto_1fr_auto]">
+      {(isLoading || isSubmitting) && <Loader />}
       <Header />
       <div className="overflow-auto">
         <main className="mx-auto max-w-3xl">

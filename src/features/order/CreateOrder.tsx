@@ -41,8 +41,8 @@ function CreateOrder() {
   */
 
   return (
-    <div>
-      <h2>Ready to order? Let's go!</h2>
+    <div className="px-4 py-6">
+      <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
 
       {/* in order to use react router action to send POST requests to the API,
       the component <Form /> from react-router-dom library must be used instead of the JSX element <form>
@@ -51,27 +51,36 @@ function CreateOrder() {
       e.g. /order/new (so, method must be "POST", "DELETE" or "PATCH" to trigger the "action" function)
       */}
       <Form method="POST" action="/order/new">
-        <div>
+        <div className="label-input-container">
           <label>First Name</label>
           <input className="input" type="text" name="customer" required />
         </div>
 
-        <div>
+        <div className="label-input-container sm:grid sm:grid-cols-[8rem_1fr]">
           <label>Phone number</label>
-          <div>
-            <input className="input" type="tel" name="phone" required />
+          <div className="flex-grow">
+            <input className="input w-full" type="tel" name="phone" required />
           </div>
-          {actionData?.phone && <p>{actionData.phone}</p>}
+          {actionData?.phone && (
+            <p className="top-0 col-start-2 mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
+              {actionData.phone}
+            </p>
+          )}
         </div>
 
-        <div>
+        <div className="label-input-container">
           <label>Address</label>
-          <div>
-            <input className="input" type="text" name="address" required />
+          <div className="flex-grow">
+            <input
+              className="input w-full"
+              type="text"
+              name="address"
+              required
+            />
           </div>
         </div>
 
-        <div>
+        <div className="label-input-container mb-12 gap-5">
           <input
             className="h-6 w-6 accent-yellow-400 focus:outline-none focus:ring focus:ring-yellow-400 focus:ring-offset-2"
             type="checkbox"
@@ -80,7 +89,9 @@ function CreateOrder() {
             // value={withPriority}
             // onChange={(e) => setWithPriority(e.target.checked)}
           />
-          <label htmlFor="priority">Want to yo give your order priority?</label>
+          <label className="flex-grow font-medium" htmlFor="priority">
+            Want to yo give your order priority?
+          </label>
         </div>
 
         <div>
@@ -94,7 +105,11 @@ function CreateOrder() {
           and the response received from the server, which is the new order, can be used 
           to render <Order /> when routing to /order/:orderId if orderId === newOrder.id */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button type="button" disabled={isLoading || isSubmitting}>
+          <Button
+            sizeType="primary"
+            type="submit"
+            disabled={isLoading || isSubmitting}
+          >
             {isSubmitting
               ? "Placing the order ..."
               : isLoading
