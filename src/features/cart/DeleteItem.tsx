@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Button from "../../ui/Button";
-import { getAnItemQuantity, removeItemFromCart } from "./cartSlice";
+import { removeItemFromCart } from "./cartSlice";
 
 type DeleteItemPropsType = {
   id: string;
@@ -12,7 +12,6 @@ function DeleteItem({ id }: DeleteItemPropsType) {
     and when the selector callback function is called, it returns the quantity of the
     current item if it exists in cart
   */
-  const quantity = useSelector(getAnItemQuantity(id));
   const dispatch = useDispatch();
   function handleDeleteItem() {
     dispatch(removeItemFromCart(id));
@@ -25,7 +24,7 @@ function DeleteItem({ id }: DeleteItemPropsType) {
       disabled={false}
       onClick={handleDeleteItem}
     >
-      Delete ({quantity})
+      Delete
     </Button>
   );
 }

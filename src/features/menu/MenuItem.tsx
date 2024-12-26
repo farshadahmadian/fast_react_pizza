@@ -2,11 +2,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
 import { MenuItemType } from "./types";
-import { addItemToCart, increaseItemQuantity } from "../cart/cartSlice";
+import {
+  addItemToCart,
+  getAnItemQuantity,
+  increaseItemQuantity,
+} from "../cart/cartSlice";
 import { updateCartLocalStorage } from "../cart/utils";
 import { RootStateType } from "../../store";
 import { useEffect } from "react";
 import DeleteItem from "../cart/DeleteItem";
+import UpdateItemQuantity from "../cart/UpdateItemQuantity";
 
 type MenuItemPropsType = {
   pizza: MenuItemType;
@@ -16,6 +21,7 @@ function MenuItem({ pizza }: MenuItemPropsType) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const dispatch = useDispatch();
   const cart = useSelector((rootState: RootStateType) => rootState.cart);
+  const quantity = useSelector(getAnItemQuantity(id));
 
   function handleClick() {
     const foundItem = cart.cart.find(
@@ -59,8 +65,13 @@ function MenuItem({ pizza }: MenuItemPropsType) {
             </p>
           )}
           {!soldOut && (
-            <div className="flex gap-4">
-              {isItemInCart() && <DeleteItem id={id} />}
+            <div className="flex items-center gap-4 sm:gap-8">
+              {isItemInCart() && (
+                <>
+                  <UpdateItemQuantity quantity={quantity} id={id} />
+                  <DeleteItem id={id} />
+                </>
+              )}
               {!isItemInCart() && (
                 <Button
                   onClick={handleClick}

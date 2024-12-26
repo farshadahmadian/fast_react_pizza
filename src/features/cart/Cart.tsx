@@ -7,12 +7,13 @@ import { RootStateType } from "../../store";
 import { clearCart, getCart } from "./cartSlice";
 import { updateCartLocalStorage } from "./utils";
 import EmptyCart from "./EmptyCart";
+import { useEffect } from "react";
 
 function Cart() {
   const username = useSelector(
     (rootState: RootStateType) => rootState.user.username,
   );
-  const cart = useSelector(getCart);
+  const cart = useSelector((rootState: RootStateType) => rootState.cart);
   const dispatch = useDispatch();
 
   function handleClearCart() {
@@ -22,7 +23,11 @@ function Cart() {
     updateCartLocalStorage({ cart: [] });
   }
 
-  if (!cart.length) return <EmptyCart />;
+  useEffect(() => {
+    updateCartLocalStorage(cart);
+  }, [cart]);
+
+  if (!cart.cart.length) return <EmptyCart />;
 
   return (
     <div className="px-4 py-3">
@@ -30,20 +35,20 @@ function Cart() {
       <h2 className="mt-7 text-xl font-semibold">Your cart, {username}</h2>
 
       <ul className="mt-3 divide-y divide-stone-200 border-b">
-        {cart.map((cartItem) => (
+        {cart.cart.map((cartItem) => (
           <CartItem key={cartItem.pizzaId} item={cartItem} />
         ))}
       </ul>
 
       <div className="mt-6 space-x-2">
-        {cart.length > 0 && (
+        {cart.cart.length > 0 && (
           <>
             <Button sizeType="primary" type="button">
               <Link to="/order/new">Order pizzas</Link>
             </Button>
 
             <Button
-              disabled={!cart.length}
+              disabled={!cart.cart.length}
               onClick={handleClearCart}
               type="reset"
               sizeType="secondary"

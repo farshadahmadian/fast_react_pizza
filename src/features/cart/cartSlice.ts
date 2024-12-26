@@ -50,7 +50,10 @@ const cartSlice = createSlice({
         (cartItem) => cartItem.pizzaId === action.payload,
       );
 
-      if (foundItem) {
+      if (foundItem && foundItem.quantity === 1) {
+        // use one reducer in another reducer:
+        cartSlice.caseReducers.removeItemFromCart(prevState, action);
+      } else if (foundItem && foundItem.quantity > 1) {
         prevState.cart.forEach((cartItem) => {
           if (cartItem.pizzaId === action.payload) {
             cartItem.quantity--;
