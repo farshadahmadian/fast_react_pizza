@@ -5,22 +5,28 @@ import { RootStateType } from "../../store";
 import { updateName } from "../user/userSlice";
 import { ChangeEvent, useState } from "react";
 import { updateUserLocalStorage } from "../user/utils";
-import { clearCart } from "../cart/cartSlice";
+import { clearCart, getCart, getTotalPizzasPrice } from "../cart/cartSlice";
 import { updateCartLocalStorage } from "../cart/utils";
+import EmptyCart from "../cart/EmptyCart";
+import { formatCurrency } from "../../utils/helpers";
 
 function CreateOrder() {
   // const newOrderId = useActionData();
   // const navigate = useNavigate();
   const user = useSelector((rootState: RootStateType) => rootState.user);
-  const cart = useSelector((rootState: RootStateType) => rootState.cart.cart);
+  const cart = useSelector(getCart);
+  const totalCartPrice = useSelector(getTotalPizzasPrice);
   const [newFullName, setNewFullName] = useState(user.username);
   const dispatch = useDispatch();
   const actionData = useActionData();
-
+  const [withPriority, setWithPriority] = useState(false);
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading"; // when redirecting to /order/newOrder.id (sending a GET request to API to get the newly created order)
   const isSubmitting = navigation.state === "submitting"; // when sending a POST request to the API to create a new order
-  // const [withPriority, setWithPriority] = useState(false);
+  const priorityPrice = totalCartPrice * 0.2;
+  const totalPrice = withPriority
+    ? totalCartPrice + priorityPrice
+    : totalCartPrice;
 
   function handleSubmit() {
     // default action must NOT be prevented, because a POST request must be sent to the current url (/order/new) just to get the form data, using the browser API formData() method. After that, a POST request must be sent to the API to create the new order. Then there must be a redirection to /order/newOrder.id by sending a response to the browser. As soon as route changes to /order/newOrder.id a GET request is sent to the API to get the status of the newly created order.
@@ -40,6 +46,9 @@ function CreateOrder() {
   /* 
     using react-router-dom "action", it is possible to get the data submited in form without using any states and submit handler (action.tsx)
   */
+
+  if (!cart.length) return <EmptyCart />;
+
   return (
     <div className="px-4 py-6">
       <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
@@ -95,11 +104,12 @@ function CreateOrder() {
             type="checkbox"
             name="priority"
             id="priority"
-            // value={withPriority}
-            // onChange={(e) => setWithPriority(e.target.checked)}
+            value={withPriority ? "on" : "off"}
+            onChange={(e) => setWithPriority(e.target.checked)}
           />
           <label className="flex-grow font-medium" htmlFor="priority">
-            Want to yo give your order priority?
+            Want to yo give your order priority for{" "}
+            {formatCurrency(priorityPrice)}?
           </label>
         </div>
 
@@ -123,7 +133,7 @@ function CreateOrder() {
               ? "Placing the order ..."
               : isLoading
                 ? "Redirecting to created order ..."
-                : "Order now"}
+                : `Order now (${formatCurrency(totalPrice)})`}
           </Button>
         </div>
       </Form>

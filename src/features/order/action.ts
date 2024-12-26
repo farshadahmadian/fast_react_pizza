@@ -48,7 +48,6 @@ export async function action(obj: ReactRouterDomRequestType) {
   if (Object.keys(errors).length > 0) return errors;
 
   const newOrder: FullOrderType = await createOrder(order);
-  console.log(order);
   /* 
   redirect() can be "returned" from a route "loader" or "action" function to
   send a Response with a status code (default is 302 Found) to the browser

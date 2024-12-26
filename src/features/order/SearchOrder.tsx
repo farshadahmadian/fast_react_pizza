@@ -24,7 +24,7 @@ function SearchOrder() {
       className="col-span-2 col-start-1 row-start-2 flex gap-2"
     >
       <input
-        placeholder="search order number"
+        placeholder="search order #"
         type="search"
         value={searchId}
         onChange={handleChange}
