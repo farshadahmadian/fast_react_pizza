@@ -1,8 +1,8 @@
 import { Form, useActionData, useNavigation } from "react-router-dom";
 import Button from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { RootStateType } from "../../store";
-import { updateName } from "../user/userSlice";
+import { DispatchType, RootStateType } from "../../store";
+import { fetchAddress, updateName } from "../user/userSlice";
 import { ChangeEvent, useState } from "react";
 import { updateUserLocalStorage } from "../user/utils";
 import { clearCart, getCart, getTotalPizzasPrice } from "../cart/cartSlice";
@@ -17,7 +17,7 @@ function CreateOrder() {
   const cart = useSelector(getCart);
   const totalCartPrice = useSelector(getTotalPizzasPrice);
   const [newFullName, setNewFullName] = useState(user.username);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<DispatchType>();
   const actionData = useActionData();
   const [withPriority, setWithPriority] = useState(false);
   const navigation = useNavigation();
@@ -52,6 +52,8 @@ function CreateOrder() {
   return (
     <div className="px-4 py-6">
       <h2 className="mb-8 text-xl font-semibold">Ready to order? Let's go!</h2>
+
+      <button onClick={() => dispatch(fetchAddress())}>Get Position</button>
 
       {/* in order to use react router action to send POST requests to the API,
       the component <Form /> from react-router-dom library must be used instead of the JSX element <form>

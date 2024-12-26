@@ -34,15 +34,19 @@ const cartSlice = createSlice({
         (cartItem) => cartItem.pizzaId === action.payload,
       );
 
-      if (foundItem) {
-        prevState.cart.forEach((cartItem) => {
-          if (cartItem.pizzaId === action.payload) {
-            cartItem.quantity++;
-            cartItem.totalPrice = cartItem.quantity * cartItem.unitPrice;
-            return;
-          }
-        });
-      }
+      if (!foundItem) return;
+      foundItem.quantity++;
+      foundItem.totalPrice = foundItem.quantity * foundItem.unitPrice;
+
+      // if (foundItem) {
+      //   prevState.cart.forEach((cartItem) => {
+      //     if (cartItem.pizzaId === action.payload) {
+      //       cartItem.quantity++;
+      //       cartItem.totalPrice = cartItem.quantity * cartItem.unitPrice;
+      //       return;
+      //     }
+      //   });
+      // }
     },
 
     decreaseItemQuantity(prevState, action) {
@@ -54,14 +58,23 @@ const cartSlice = createSlice({
         // use one reducer in another reducer:
         cartSlice.caseReducers.removeItemFromCart(prevState, action);
       } else if (foundItem && foundItem.quantity > 1) {
-        prevState.cart.forEach((cartItem) => {
-          if (cartItem.pizzaId === action.payload) {
-            cartItem.quantity--;
-            cartItem.totalPrice = cartItem.quantity * cartItem.unitPrice;
-            return;
-          }
-        });
+        foundItem.quantity--;
+        foundItem.totalPrice = foundItem.quantity * foundItem.unitPrice;
+        return;
       }
+
+      // if (foundItem && foundItem.quantity === 1) {
+      //   // use one reducer in another reducer:
+      //   cartSlice.caseReducers.removeItemFromCart(prevState, action);
+      // } else if (foundItem && foundItem.quantity > 1) {
+      //   prevState.cart.forEach((cartItem) => {
+      //     if (cartItem.pizzaId === action.payload) {
+      //       cartItem.quantity--;
+      //       cartItem.totalPrice = cartItem.quantity * cartItem.unitPrice;
+      //       return;
+      //     }
+      //   });
+      // }
     },
 
     removeItemFromCart(prevState, action) {
