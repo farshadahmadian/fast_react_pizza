@@ -6,6 +6,7 @@ import { addItemToCart, increaseItemQuantity } from "../cart/cartSlice";
 import { updateCartLocalStorage } from "../cart/utils";
 import { RootStateType } from "../../store";
 import { useEffect } from "react";
+import DeleteItem from "../cart/DeleteItem";
 
 type MenuItemPropsType = {
   pizza: MenuItemType;
@@ -26,6 +27,11 @@ function MenuItem({ pizza }: MenuItemPropsType) {
     } else {
       dispatch(addItemToCart(pizza));
     }
+  }
+
+  function isItemInCart() {
+    const foundItem = cart.cart.find((cartItem) => cartItem.pizzaId === id);
+    return foundItem;
   }
 
   useEffect(() => {
@@ -53,14 +59,19 @@ function MenuItem({ pizza }: MenuItemPropsType) {
             </p>
           )}
           {!soldOut && (
-            <Button
-              onClick={handleClick}
-              type="button"
-              sizeType="small"
-              disabled={soldOut}
-            >
-              add to cart
-            </Button>
+            <div className="flex gap-4">
+              {isItemInCart() && <DeleteItem id={id} />}
+              {!isItemInCart() && (
+                <Button
+                  onClick={handleClick}
+                  type="button"
+                  sizeType="small"
+                  disabled={soldOut}
+                >
+                  add to cart
+                </Button>
+              )}
+            </div>
           )}
         </div>
       </div>

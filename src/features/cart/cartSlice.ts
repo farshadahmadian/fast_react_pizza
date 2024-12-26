@@ -94,6 +94,23 @@ export function getTotalPizzasPrice(rootState: RootStateType) {
   }, 0);
 }
 
+export function getAnItemQuantity(itemId: string) {
+  /* 
+    when getAnItemQuantity(id) is called, it returns the
+    selector callback function
+  */
+  return function (rootState: RootStateType) {
+    /* 
+      selector callback function, is a function that receives
+      the store state, and returns a derived state
+    */
+    const foundItem = rootState.cart.cart.find(
+      (cartItem) => cartItem.pizzaId === itemId,
+    );
+    return foundItem?.quantity;
+  };
+}
+
 export const {
   addItemToCart,
   increaseItemQuantity,
