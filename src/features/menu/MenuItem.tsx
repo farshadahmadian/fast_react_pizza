@@ -1,6 +1,11 @@
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../ui/Button";
 import { formatCurrency } from "../../utils/helpers";
 import { MenuItemType } from "./types";
+import { addItemToCart, increaseItemQuantity } from "../cart/cartSlice";
+import { updateCartLocalStorage } from "../cart/utils";
+import { RootStateType } from "../../store";
+import { useEffect } from "react";
 
 type MenuItemPropsType = {
   pizza: MenuItemType;
@@ -8,6 +13,24 @@ type MenuItemPropsType = {
 
 function MenuItem({ pizza }: MenuItemPropsType) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+  const dispatch = useDispatch();
+  const cart = useSelector((rootState: RootStateType) => rootState.cart);
+
+  function handleClick() {
+    const foundItem = cart.cart.find(
+      (cartItem) => cartItem.pizzaId === pizza.id,
+    );
+
+    if (foundItem) {
+      dispatch(increaseItemQuantity(id));
+    } else {
+      dispatch(addItemToCart(pizza));
+    }
+  }
+
+  useEffect(() => {
+    updateCartLocalStorage(cart);
+  }, [cart]);
 
   return (
     <li className="flex gap-4 py-2">
@@ -29,9 +52,16 @@ function MenuItem({ pizza }: MenuItemPropsType) {
               Sold out
             </p>
           )}
-          <Button type="button" sizeType="small" disabled={soldOut}>
-            add to cart
-          </Button>
+          {!soldOut && (
+            <Button
+              onClick={handleClick}
+              type="button"
+              sizeType="small"
+              disabled={soldOut}
+            >
+              add to cart
+            </Button>
+          )}
         </div>
       </div>
     </li>

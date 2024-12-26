@@ -1,5 +1,5 @@
 export type CartItemType = {
-  pizzaId: number;
+  pizzaId: string;
   name: string;
   quantity: number;
   unitPrice: number;
