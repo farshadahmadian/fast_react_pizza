@@ -2,6 +2,8 @@ import { redirect } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
 import { ReactRouterDomRequestType } from "../../type";
 import { FullOrderType, OrderFormType, PostOrderType } from "./types";
+import store from "../../store";
+import { clearCart } from "../cart/cartSlice";
 
 type FormErrorsType = {
   phone?: string;
@@ -40,7 +42,6 @@ export async function action(obj: ReactRouterDomRequestType) {
     ...convertedData,
     priority: convertedData.priority === "on",
   };
-
   const errors: FormErrorsType = {};
   if (!isValidPhone(convertedData.phone)) {
     errors.phone = "Please enter a correct phone number!";
@@ -54,6 +55,7 @@ export async function action(obj: ReactRouterDomRequestType) {
   so that redirection to a route happens, e.g. `/order/${newOrder.id}`
   */
   const response = redirect(`/order/${newOrder.id}`);
+  store.dispatch(clearCart());
   return response;
   // return newOrder.id;
 }

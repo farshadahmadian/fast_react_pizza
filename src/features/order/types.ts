@@ -8,6 +8,7 @@ export type OrderFormType = {
   address: string;
   priority: string;
   cart: CartItemType[];
+  position: GeolocationCoordinates | null;
 };
 
 export type PostOrderType = Omit<OrderFormType, "priority"> & {
