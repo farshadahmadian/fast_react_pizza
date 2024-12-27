@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import Button from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { updateName } from "./userSlice";
+import { updateName, initialUserData } from "./userSlice";
 import { useNavigate } from "react-router-dom";
 import { updateUserLocalStorage } from "./utils";
 import { RootStateType } from "../../store";
@@ -16,7 +16,8 @@ function CreateUser() {
     e.preventDefault();
     if (!fullName.trim()) return;
     dispatch(updateName(fullName));
-    updateUserLocalStorage({ ...user, username: fullName });
+    // updateUserLocalStorage({ ...user, username: fullName });
+    updateUserLocalStorage({ ...initialUserData, username: fullName });
     setFullName("");
     navigate("/menu");
   }

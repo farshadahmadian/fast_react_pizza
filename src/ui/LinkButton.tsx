@@ -10,7 +10,7 @@ type LinkButtonPropsType = {
 function LinkButton({ children, to, className = "" }: LinkButtonPropsType) {
   const navigate = useNavigate();
 
-  const classNames = `text-sm text-blue-500 hover:text-blue-600 hover:underline ${className}`;
+  const classNames = `py-4 text-sm text-blue-500 hover:text-blue-600 hover:underline ${className}`;
 
   if (to === "-1")
     return (

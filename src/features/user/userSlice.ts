@@ -51,20 +51,25 @@ export type UserStateType = {
   position: { latitude: number; longitude: number } | null;
   address: string;
   error: SerializedError | null;
+  phone: string;
+  orderIds: string[];
 };
 
 export const LOCAL_STORAGE_USER = "userData";
 const userString = localStorage.getItem(LOCAL_STORAGE_USER);
-const userData: UserStateType = JSON.parse(userString || '{"username":""}');
+export const initialUserData: UserStateType = JSON.parse(
+  userString ||
+    '{"username":"", "status":"idle", "position":"", "address":"", "error":null, "phone":"", "orderIds":[]}',
+);
 
 const initialState: UserStateType = {
-  username: userData.username,
+  username: initialUserData.username,
   status: "idle",
-  position: null,
-  address: "",
+  position: initialUserData.position,
+  address: initialUserData.address,
   error: null,
-  // phoneNumber: "",
-  // address: "",
+  phone: initialUserData.phone,
+  orderIds: initialUserData.orderIds,
 };
 
 const userSlice = createSlice({
@@ -82,6 +87,22 @@ const userSlice = createSlice({
     //   prevState.phoneNumber = action.payload.phoneNumber;
     //   prevState.address = action.payload.address;
     // },
+
+    updateUserData(prevState, action) {
+      prevState.orderIds.push(action.payload.id);
+      prevState.phone = action.payload.phone;
+      prevState.address = action.payload.phone;
+    },
+
+    logout(prevState) {
+      prevState.address = "";
+      prevState.error = null;
+      prevState.status = "idle";
+      prevState.orderIds = [];
+      prevState.position = null;
+      prevState.phone = "";
+      prevState.username = "";
+    },
   },
 
   extraReducers: (builder) => {
@@ -104,5 +125,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { updateName } = userSlice.actions;
+export const { updateName, updateUserData, logout } = userSlice.actions;
 export default userSlice.reducer;

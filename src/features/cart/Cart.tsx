@@ -4,7 +4,7 @@ import Button from "../../ui/Button";
 import CartItem from "./CartItem";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStateType } from "../../store";
-import { clearCart, getCart } from "./cartSlice";
+import { clearCart } from "./cartSlice";
 import { updateCartLocalStorage } from "./utils";
 import EmptyCart from "./EmptyCart";
 import { useEffect } from "react";
@@ -44,7 +44,9 @@ function Cart() {
         {cart.cart.length > 0 && (
           <>
             <Button sizeType="primary" type="button">
-              <Link to="/order/new">Order pizzas</Link>
+              <Link className="py-4" to="/order/new">
+                Order pizzas
+              </Link>
             </Button>
 
             <Button

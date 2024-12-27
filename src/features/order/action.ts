@@ -4,6 +4,9 @@ import { ReactRouterDomRequestType } from "../../type";
 import { FullOrderType, OrderFormType, PostOrderType } from "./types";
 import store from "../../store";
 import { clearCart } from "../cart/cartSlice";
+import { updateUserLocalStorage } from "../user/utils";
+import { updateCartLocalStorage } from "../cart/utils";
+import { updateUserData } from "../user/userSlice";
 
 export async function updateOrderAction(obj: ReactRouterDomRequestType) {
   if (!obj.params.orderId) return;
@@ -80,6 +83,23 @@ export async function action(obj: ReactRouterDomRequestType) {
   */
   const response = redirect(`/order/${newOrder.id}`);
   store.dispatch(clearCart());
+  store.dispatch(
+    updateUserData({
+      phone: newOrder.phone,
+      address: newOrder.address,
+      id: newOrder.id,
+    }),
+  );
+  updateUserLocalStorage({
+    username: newOrder.customer,
+    address: newOrder.address,
+    phone: newOrder.phone,
+    position: newOrder.position,
+    status: "idle",
+    error: null,
+    orderIds: [newOrder.id],
+  });
+  updateCartLocalStorage({ cart: [] });
   return response;
   // return newOrder.id;
 }

@@ -13,6 +13,7 @@ import {
   action as createOrderAction,
   updateOrderAction,
 } from "./features/order/action";
+import Profile from "./features/user/Profile";
 // for data loading, data actions and data fetching in React Router Dom, createBrowserRouter() is required
 
 /* 
@@ -76,6 +77,10 @@ const router = createBrowserRouter([
         action: updateOrderAction,
         hydrateFallbackElement: <Loader />,
         errorElement: <Error />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
       },
       {
         path: "*",
