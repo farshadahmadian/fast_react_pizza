@@ -65,10 +65,12 @@ export async function action(obj: ReactRouterDomRequestType) {
     cart: JSON.parse(data.cart.toString()),
     priority: data.priority,
   } as OrderFormType;
+
   const order: PostOrderType = {
     ...convertedData,
     priority: convertedData.priority === "on",
   };
+
   const errors: FormErrorsType = {};
   if (!isValidPhone(convertedData.phone)) {
     errors.phone = "Please enter a correct phone number!";

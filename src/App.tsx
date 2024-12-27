@@ -14,6 +14,7 @@ import {
   updateOrderAction,
 } from "./features/order/action";
 import Profile from "./features/user/Profile";
+import ProtectedRoute from "./ui/ProtectedRoute";
 // for data loading, data actions and data fetching in React Router Dom, createBrowserRouter() is required
 
 /* 
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
     // if an error happens in rendering a component of a route, e.g. throwing an exception instance in <Menu /> and not catching that exception instance, it is possible to render an errorElement instead of that component. The error (exception) bubbles up to the wraping route, therefore this errorElement can be defined in parent route.
 
     // layout route: a route without "path"
-    element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <Error />,
     children: [
       {

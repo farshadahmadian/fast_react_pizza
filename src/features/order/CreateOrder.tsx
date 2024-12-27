@@ -1,4 +1,4 @@
-import { Form, useActionData, useNavigation } from "react-router-dom";
+import { Form, Link, useActionData, useNavigation } from "react-router-dom";
 import Button from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootStateType } from "../../store";
@@ -7,6 +7,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { getCart, getTotalPizzasPrice } from "../cart/cartSlice";
 import EmptyCart from "../cart/EmptyCart";
 import { formatCurrency } from "../../utils/helpers";
+import LinkButton from "../../ui/LinkButton";
 
 function CreateOrder() {
   // const newOrderId = useActionData();
@@ -47,18 +48,25 @@ function CreateOrder() {
     using react-router-dom "action", it is possible to get the data submited in form without using any states and submit handler (action.tsx)
   */
 
-  // useEffect(() => {
-  //   setDefaultAddress(user.address);
-  // }, [user.address, user.position]);
+  useEffect(() => {
+    setDefaultAddress(user.address);
+  }, [user.address, user.position]);
 
   // if (!cart.length) return <EmptyCart />;
+
+  // if (!cart.length)
+  //   return (
+  //     <div className="px-4 py-6">
+  //       <h2 className="mb-2 font-semibold">Your cart is empty!</h2>
+  //       <LinkButton to="/menu">&larr; Back to menu</LinkButton>
+  //     </div>
+  //   );
 
   return (
     <div className="px-4 py-6">
       <h2 className="mb-8 mt-6 text-xl font-semibold">
         Ready to order? Let's go!
       </h2>
-
       {/* in order to use react router action to send POST requests to the API,
       the component <Form /> from react-router-dom library must be used instead of the JSX element <form>
       
@@ -108,7 +116,7 @@ function CreateOrder() {
               type="text"
               name="address"
               // value={isLoadingAddress ? addressMessage : defaultAddress}
-              value={defaultAddress}
+              value={isLoadingAddress ? addressMessage : defaultAddress}
               onChange={(event) => setDefaultAddress(event.target.value)}
               disabled={isLoadingAddress}
               required
@@ -118,7 +126,9 @@ function CreateOrder() {
               disabled={isLoadingAddress}
               type="button"
               sizeType="round"
-              onClick={() => dispatch(fetchAddress())}
+              onClick={() => {
+                dispatch(fetchAddress());
+              }}
               /* z-10 (z-index) is not required here, but if it is used,
                 a higher z-index must be assigned to <Loader />
               */
@@ -179,7 +189,9 @@ function CreateOrder() {
           <Button
             sizeType="primary"
             type="submit"
-            disabled={isLoading || isSubmitting || isLoadingAddress}
+            disabled={
+              !cart.length || isLoading || isSubmitting || isLoadingAddress
+            }
           >
             {isSubmitting
               ? "Placing the order ..."

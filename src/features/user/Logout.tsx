@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
 import Button from "../../ui/Button";
 import { useNavigate } from "react-router-dom";
-import { updateName, initialUserData, logout } from "./userSlice";
-import { updateUserLocalStorage } from "./utils";
+import { EMPTY_USER, initialUserData, logout } from "./userSlice";
+import { resetUserLocalStorage } from "./utils";
 import { updateCartLocalStorage } from "../cart/utils";
 import { clearCart } from "../cart/cartSlice";
 
@@ -15,11 +15,11 @@ function Logout() {
       "All your data will be deleted. Are you sure you want to logout?",
     );
     if (!isConfirmed) return;
-    dispatch(updateName(""));
-    updateUserLocalStorage(initialUserData);
+    resetUserLocalStorage(EMPTY_USER);
+    console.log(initialUserData);
     updateCartLocalStorage({ cart: [] });
-    dispatch(clearCart());
     dispatch(logout());
+    dispatch(clearCart());
     navigate("/");
   }
   return (

@@ -55,6 +55,16 @@ export type UserStateType = {
   orderIds: string[];
 };
 
+export const EMPTY_USER: UserStateType = {
+  address: "",
+  error: null,
+  status: "idle",
+  orderIds: [],
+  position: null,
+  phone: "",
+  username: "",
+};
+
 export const LOCAL_STORAGE_USER = "userData";
 const userString = localStorage.getItem(LOCAL_STORAGE_USER);
 export const initialUserData: UserStateType = JSON.parse(
@@ -91,17 +101,17 @@ const userSlice = createSlice({
     updateUserData(prevState, action) {
       prevState.orderIds.push(action.payload.id);
       prevState.phone = action.payload.phone;
-      prevState.address = action.payload.phone;
+      prevState.address = action.payload.address;
     },
 
     logout(prevState) {
-      prevState.address = "";
-      prevState.error = null;
-      prevState.status = "idle";
-      prevState.orderIds = [];
-      prevState.position = null;
-      prevState.phone = "";
-      prevState.username = "";
+      prevState.address = EMPTY_USER.address;
+      prevState.error = EMPTY_USER.error;
+      prevState.status = EMPTY_USER.status;
+      prevState.orderIds = EMPTY_USER.orderIds;
+      prevState.position = EMPTY_USER.position;
+      prevState.phone = EMPTY_USER.phone;
+      prevState.username = EMPTY_USER.username;
     },
   },
 
