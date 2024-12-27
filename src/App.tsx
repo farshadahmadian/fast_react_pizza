@@ -9,7 +9,10 @@ import Error from "./ui/Error";
 import Loader from "./ui/Loader";
 import { loader as menuLoader } from "./features/menu/loaders";
 import { loader as orderLoader } from "./features/order/loaders";
-import { action as createOrderAction } from "./features/order/action";
+import {
+  action as createOrderAction,
+  updateOrderAction,
+} from "./features/order/action";
 // for data loading, data actions and data fetching in React Router Dom, createBrowserRouter() is required
 
 /* 
@@ -70,6 +73,7 @@ const router = createBrowserRouter([
         path: "order/:orderId",
         element: <Order />,
         loader: orderLoader,
+        action: updateOrderAction,
         hydrateFallbackElement: <Loader />,
         errorElement: <Error />,
       },

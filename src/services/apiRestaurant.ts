@@ -38,7 +38,7 @@ export async function createOrder(newOrder: PostOrderType) {
   }
 }
 
-export async function updateOrder(id: string, updateObj) {
+export async function updateOrder(id: string, updateObj: { priority: true }) {
   try {
     const res = await fetch(`${API_URL}/order/${id}`, {
       method: "PATCH",

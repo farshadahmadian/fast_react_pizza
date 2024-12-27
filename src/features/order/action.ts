@@ -1,9 +1,33 @@
 import { redirect } from "react-router-dom";
-import { createOrder } from "../../services/apiRestaurant";
+import { createOrder, updateOrder } from "../../services/apiRestaurant";
 import { ReactRouterDomRequestType } from "../../type";
 import { FullOrderType, OrderFormType, PostOrderType } from "./types";
 import store from "../../store";
 import { clearCart } from "../cart/cartSlice";
+
+export async function updateOrderAction(obj: ReactRouterDomRequestType) {
+  if (!obj.params.orderId) return;
+  /* 
+    When the form in "Order" component is submited, a PATCH request will be sent 
+    to the "form action attribute (/order/id)". this request, containing the
+    submitted form data, along with the "params" will be passed as an object (obj)
+    to the "route action function"
+  */
+  /*
+  console.log(obj);
+  const formData = await obj.request.formData();
+  const data = Object.fromEntries(formData);
+  const order: FullOrderType = JSON.parse(data.order.toString());
+  console.log(order);
+  */
+  await updateOrder(obj.params.orderId, { priority: true });
+
+  /* 
+    redirect() is not needed because react router dom will re-fetch
+    the data when "priority" is updated and re-renders the page. redirect() is used to cause navigation which mutates the navigattion object and updates navigation.state from "idle" to "loading or submitting" which will render <Loader />
+  */
+  return redirect(`/order/${obj.params.orderId}`);
+}
 
 type FormErrorsType = {
   phone?: string;

@@ -115,6 +115,9 @@ function CreateOrder() {
               type="button"
               sizeType="round"
               onClick={() => dispatch(fetchAddress())}
+              /* z-10 (z-index) is not required here, but if it is used,
+                a higher z-index must be assigned to <Loader />
+              */
               className="h-h-full absolute right-0 top-8 z-10 flex !bg-transparent focus:!ring-0 focus:!ring-offset-0 sm:top-0"
             >
               <img
