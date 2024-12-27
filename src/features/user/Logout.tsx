@@ -23,9 +23,16 @@ function Logout() {
     navigate("/");
   }
   return (
-    <Button type="button" sizeType="round" onClick={handleLogout}>
-      Logout
-    </Button>
+    <div className="col-start-2 row-start-1 flex items-center gap-2 justify-self-end">
+      <Button
+        type="button"
+        sizeType="round"
+        onClick={handleLogout}
+        className="tracking-widest"
+      >
+        Logout
+      </Button>
+    </div>
   );
 }
 
