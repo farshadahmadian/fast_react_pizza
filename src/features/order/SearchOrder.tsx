@@ -34,7 +34,7 @@ function SearchOrder() {
         sizeType="round"
         disabled={false}
         type="submit"
-        className="tracking-wide"
+        className="tracking-widest"
       >
         Search
       </Button>

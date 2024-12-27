@@ -19,11 +19,11 @@ function UpdateItemQuantity({ id, quantity }: UpdateItemQuantityPropsType) {
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1 sm:gap-2">
       <Button onClick={handleDecrease} type="button" sizeType="round">
         -
       </Button>
-      <span className="text-sm font-medium">{quantity}</span>
+      <span className="text-xs font-medium sm:text-sm">{quantity}</span>
       <Button onClick={handleIncrease} type="button" sizeType="round">
         +
       </Button>

@@ -65,7 +65,7 @@ function MenuItem({ pizza }: MenuItemPropsType) {
             </p>
           )}
           {!soldOut && (
-            <div className="flex items-center gap-4 sm:gap-8">
+            <div className="flex items-center gap-2 sm:gap-8">
               {isItemInCart() && (
                 <>
                   <UpdateItemQuantity quantity={quantity} id={id} />
