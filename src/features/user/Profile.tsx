@@ -6,7 +6,7 @@ function Profile() {
   const user = useSelector((rootState: RootStateType) => rootState.user);
 
   return (
-    <div>
+    <div className="px-4 py-3">
       <h1 className="mb-10 mt-6 text-xl font-semibold">
         Welcome, <span className="italic">{user.username}</span>
       </h1>
