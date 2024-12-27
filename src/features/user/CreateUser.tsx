@@ -1,22 +1,19 @@
 import { FormEvent, useState } from "react";
 import Button from "../../ui/Button";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateName, initialUserData } from "./userSlice";
 import { useNavigate } from "react-router-dom";
 import { updateUserLocalStorage } from "./utils";
-import { RootStateType } from "../../store";
 
 function CreateUser() {
   const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((rootState: RootStateType) => rootState.user);
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!fullName.trim()) return;
     dispatch(updateName(fullName));
-    // updateUserLocalStorage({ ...user, username: fullName });
     updateUserLocalStorage({ ...initialUserData, username: fullName });
     setFullName("");
     navigate("/menu");

@@ -6,7 +6,7 @@ import store from "../../store";
 import { clearCart } from "../cart/cartSlice";
 import { updateUserLocalStorage } from "../user/utils";
 import { updateCartLocalStorage } from "../cart/utils";
-import { updateUserData } from "../user/userSlice";
+import { updateUserData, UserStateType } from "../user/userSlice";
 
 export async function updateOrderAction(obj: ReactRouterDomRequestType) {
   if (!obj.params.orderId) return;
@@ -60,11 +60,16 @@ export async function action(obj: ReactRouterDomRequestType) {
   using states and submit handler. "cart" can be received as the 
   value of a "hidden input"
   */
+  type ConvertedDataType = OrderFormType & {
+    user: UserStateType;
+  };
+
   const convertedData = {
     ...data,
     cart: JSON.parse(data.cart.toString()),
+    user: JSON.parse(data.user.toString()),
     priority: data.priority,
-  } as OrderFormType;
+  } as ConvertedDataType;
 
   const order: PostOrderType = {
     ...convertedData,
@@ -99,7 +104,7 @@ export async function action(obj: ReactRouterDomRequestType) {
     position: newOrder.position,
     status: "idle",
     error: null,
-    orderIds: [newOrder.id],
+    orderIds: [...convertedData.user.orderIds, newOrder.id],
   });
   updateCartLocalStorage({ cart: [] });
   return response;

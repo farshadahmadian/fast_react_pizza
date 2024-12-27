@@ -1,5 +1,3 @@
-// Test ID: IIDSAT
-
 import { useFetcher, useLoaderData, useNavigation } from "react-router-dom";
 import {
   calcMinutesLeft,

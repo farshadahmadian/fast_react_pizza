@@ -1,11 +1,9 @@
 import { useSelector } from "react-redux";
 import { RootStateType } from "../../store";
 import { Link } from "react-router-dom";
-import { updateUserLocalStorage } from "./utils";
 
 function Profile() {
   const user = useSelector((rootState: RootStateType) => rootState.user);
-  updateUserLocalStorage(user);
 
   return (
     <div>

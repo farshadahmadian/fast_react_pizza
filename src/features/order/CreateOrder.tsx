@@ -1,13 +1,11 @@
-import { Form, Link, useActionData, useNavigation } from "react-router-dom";
+import { Form, useActionData, useNavigation } from "react-router-dom";
 import Button from "../../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { DispatchType, RootStateType } from "../../store";
 import { fetchAddress, updateName } from "../user/userSlice";
 import { ChangeEvent, useEffect, useState } from "react";
 import { getCart, getTotalPizzasPrice } from "../cart/cartSlice";
-import EmptyCart from "../cart/EmptyCart";
 import { formatCurrency } from "../../utils/helpers";
-import LinkButton from "../../ui/LinkButton";
 
 function CreateOrder() {
   // const newOrderId = useActionData();
@@ -28,12 +26,10 @@ function CreateOrder() {
   const totalPrice = withPriority
     ? totalCartPrice + priorityPrice
     : totalCartPrice;
-
   const isLoadingAddress = user.status === "loading";
   const addressMessage = "Finding your location ...";
   function handleSubmit() {
     // default action must NOT be prevented, because a POST request must be sent to the current url (/order/new) just to get the form data, using the browser API formData() method. After that, a POST request must be sent to the API to create the new order. Then there must be a redirection to /order/newOrder.id by sending a response to the browser. As soon as route changes to /order/newOrder.id a GET request is sent to the API to get the status of the newly created order.
-
     // event.preventDefault();
     dispatch(updateName(newFullName));
 
@@ -176,6 +172,7 @@ function CreateOrder() {
           and the response received from the server, which is the new order, can be used 
           to render <Order /> when routing to /order/:orderId if orderId === newOrder.id */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <input type="hidden" name="user" value={JSON.stringify(user)} />
           <input
             type="hidden"
             name="position"
