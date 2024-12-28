@@ -21,7 +21,7 @@ function Error() {
     message = error.message;
 
   return (
-    <div>
+    <div className="px-4 py-3">
       <h1 className="mt-6">Something went wrong 😢</h1>
       {message && <p>{message}</p>}
       <LinkButton to="-1">&larr;Go back</LinkButton>
