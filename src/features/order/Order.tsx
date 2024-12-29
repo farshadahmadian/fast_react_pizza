@@ -40,6 +40,12 @@ function Order() {
     else return foundItem.ingredients;
   }
 
+  /* 
+    as soon as the "Add Priority" button is clicked, a POST request will be sent
+    to the "action attribute" of the form "<priorityUpdater.Form>" which is the current route (/order/orderId)
+    and form will be submitted. This is the same thing as the handler function below does. So, "onClick" and 
+    the handler function can be omitted
+  */
   function handleAddPriority() {
     if (!priorityUpdater.data && priorityUpdater.state === "idle") {
       priorityUpdater.submit(`/order/${id}`);
